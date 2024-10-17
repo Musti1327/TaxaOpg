@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Windows.Forms;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace TaxaOpg
@@ -39,7 +40,6 @@ namespace TaxaOpg
             this.VisKort = new System.Windows.Forms.Button();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.DagNatComboBox = new System.Windows.Forms.ComboBox();
-            this.Beregnet_Pris = new System.Windows.Forms.TextBox();
             this.Slut_Destination = new System.Windows.Forms.TextBox();
             this.Start_Destination = new System.Windows.Forms.TextBox();
             this.Beregn = new System.Windows.Forms.Button();
@@ -68,7 +68,6 @@ namespace TaxaOpg
             this.splitContainer1.Panel1.Controls.Add(this.VisKort);
             this.splitContainer1.Panel1.Controls.Add(this.pictureBox1);
             this.splitContainer1.Panel1.Controls.Add(this.DagNatComboBox);
-            this.splitContainer1.Panel1.Controls.Add(this.Beregnet_Pris);
             this.splitContainer1.Panel1.Controls.Add(this.Slut_Destination);
             this.splitContainer1.Panel1.Controls.Add(this.Start_Destination);
             this.splitContainer1.Panel1.Controls.Add(this.Beregn);
@@ -84,18 +83,24 @@ namespace TaxaOpg
             // 
             // VognTypeComboBox
             // 
-            this.VognTypeComboBox.FormattingEnabled = true;
+            this.VognTypeComboBox.DataSource = new TaxaOpg.VehicleType[] {
+        TaxaOpg.VehicleType.Unknown,
+        TaxaOpg.VehicleType.Normal,
+        TaxaOpg.VehicleType.Big};
+            this.VognTypeComboBox.Items.AddRange(new object[] {
+            TaxaOpg.VehicleType.Unknown,
+            TaxaOpg.VehicleType.Normal,
+            TaxaOpg.VehicleType.Big});
             this.VognTypeComboBox.Location = new System.Drawing.Point(12, 167);
             this.VognTypeComboBox.Name = "VognTypeComboBox";
             this.VognTypeComboBox.Size = new System.Drawing.Size(121, 21);
             this.VognTypeComboBox.TabIndex = 14;
-            this.VognTypeComboBox.DataSource = Enum.GetValues(typeof(VehicleType));
             // 
             // Antal_km
             // 
             this.Antal_km.AutoSize = true;
             this.Antal_km.Font = new System.Drawing.Font("Century", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Antal_km.Location = new System.Drawing.Point(157, 190);
+            this.Antal_km.Location = new System.Drawing.Point(155, 167);
             this.Antal_km.Name = "Antal_km";
             this.Antal_km.Size = new System.Drawing.Size(21, 23);
             this.Antal_km.TabIndex = 13;
@@ -105,11 +110,12 @@ namespace TaxaOpg
             // 
             this.Pris.AutoSize = true;
             this.Pris.Font = new System.Drawing.Font("Century", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Pris.Location = new System.Drawing.Point(157, 167);
+            this.Pris.Location = new System.Drawing.Point(155, 194);
             this.Pris.Name = "Pris";
             this.Pris.Size = new System.Drawing.Size(21, 23);
             this.Pris.TabIndex = 12;
             this.Pris.Text = "0";
+            this.Pris.Click += new System.EventHandler(this.Pris_Click_1);
             // 
             // VisKort
             // 
@@ -133,20 +139,16 @@ namespace TaxaOpg
             // 
             // DagNatComboBox
             // 
-            "Dag",
-            "Nat"});
+            this.DagNatComboBox.DataSource = new TaxaOpg.SetTillaeg[] {
+        TaxaOpg.SetTillaeg.Dag,
+        TaxaOpg.SetTillaeg.Nat};
+            this.DagNatComboBox.Items.AddRange(new object[] {
+            TaxaOpg.SetTillaeg.Dag,
+            TaxaOpg.SetTillaeg.Nat});
             this.DagNatComboBox.Location = new System.Drawing.Point(12, 194);
             this.DagNatComboBox.Name = "DagNatComboBox";
             this.DagNatComboBox.Size = new System.Drawing.Size(121, 21);
             this.DagNatComboBox.TabIndex = 9;
-            this.DagNatComboBox.DataSource = Enum.GetValues(typeof(SetTillaeg));
-            // 
-            // Beregnet_Pris
-            // 
-            this.Beregnet_Pris.Location = new System.Drawing.Point(12, 281);
-            this.Beregnet_Pris.Name = "Beregnet_Pris";
-            this.Beregnet_Pris.Size = new System.Drawing.Size(132, 20);
-            this.Beregnet_Pris.TabIndex = 5;
             // 
             // Slut_Destination
             // 
@@ -226,7 +228,6 @@ namespace TaxaOpg
         #endregion
 
         private System.Windows.Forms.SplitContainer splitContainer1;
-        private System.Windows.Forms.TextBox Beregnet_Pris;
         private System.Windows.Forms.TextBox Slut_Destination;
         private System.Windows.Forms.TextBox Start_Destination;
         private System.Windows.Forms.Button Beregn;
