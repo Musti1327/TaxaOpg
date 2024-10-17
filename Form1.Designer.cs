@@ -90,7 +90,6 @@ namespace TaxaOpg
             this.VognTypeComboBox.Size = new System.Drawing.Size(121, 21);
             this.VognTypeComboBox.TabIndex = 14;
             this.VognTypeComboBox.DataSource = Enum.GetValues(typeof(VehicleType));
-
             // 
             // Antal_km
             // 
@@ -134,8 +133,6 @@ namespace TaxaOpg
             // 
             // DagNatComboBox
             // 
-            this.DagNatComboBox.FormattingEnabled = true;
-            this.DagNatComboBox.Items.AddRange(new object[] {
             "Dag",
             "Nat"});
             this.DagNatComboBox.Location = new System.Drawing.Point(12, 194);
