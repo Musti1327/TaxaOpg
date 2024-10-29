@@ -71,8 +71,6 @@ namespace TaxaOpg
 
                     JObject json = JObject.Parse(responseBody);
 
-
-                    if (json["routes"] != null && json["routes"].Any())
                     {
                         var distance = json["routes"][0]["legs"][0]["distance"]["text"];
                         distances = distance.ToString();
@@ -94,10 +92,6 @@ namespace TaxaOpg
                         double totalpris = _priceDto.StartPris + (distanceValue * _priceDto.PrisPrKm);
                         _priceDto.pris = totalpris;
                         Pris.Text = _priceDto.pris.ToString();
-                    }
-                    else
-                    {
-                        MessageBox.Show("Ingen rute fundet mellem de angivne destinationer.");
                     }
                 }
             }
