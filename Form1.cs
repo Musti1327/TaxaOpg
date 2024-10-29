@@ -115,8 +115,7 @@ namespace TaxaOpg
 
         private void VisKort_Click(object sender, EventArgs e)
         {
-            string url = string.Format("http://maps.google.com/maps?t={0}&q=loc:{1}", "Satellite", Start_Destination.Text);
-            webView21.Source = new Uri(url);
+           
         }
 
         private void PrisUpdate()
