@@ -11,7 +11,6 @@ namespace TaxaOpg
     {
         public PriceDto GetNormalCarPriceDay()
         {
-
             var obj = new PriceDto();
             obj.CarType = VehicleType.Normal;
             obj.tillaeg = SetTillaeg.Dag;
@@ -22,19 +21,15 @@ namespace TaxaOpg
         }
         public PriceDto GetBigCarPriceDay()
         {
-            
-            {
-                var obj = new PriceDto();
-                obj.CarType = VehicleType.Big;
-                obj.tillaeg = SetTillaeg.Dag;
-                obj.StartPris = 77;
-                obj.PrisPrKm = 17;
+            var obj = new PriceDto();
+            obj.CarType = VehicleType.Big;
+            obj.tillaeg = SetTillaeg.Dag;
+            obj.StartPris = 77;
+            obj.PrisPrKm = 17;
 
-                return obj;
-            }
-
-            
+            return obj;
         }
+ 
         public PriceDto GetNormalCarPriceNight()
         {
             var obj = new PriceDto();

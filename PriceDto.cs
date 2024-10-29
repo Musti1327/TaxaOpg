@@ -10,8 +10,9 @@ namespace TaxaOpg
     {
         public double pris { get; set; }
 
-        public double StartPris = 0;
+        public double StartPris { get; set; } = 0;
 
+        public double PrisPrKm { get; set; }
         public VehicleType CarType { get; set; }
         public SetTillaeg tillaeg { get; set; }
     }

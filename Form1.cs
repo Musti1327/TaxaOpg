@@ -4,21 +4,28 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.Button;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Microsoft.Web.WebView2.WinForms;
 using Microsoft.Web.WebView2.Core;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement.Button;
+using System.Globalization;
+using Newtonsoft.Json.Linq;
+
 
 namespace TaxaOpg
 {
     public partial class Form1 : Form
     {
-        private string apiKey = "AIzaSyDAo5Cokd4acdyTCMgtY1DXBUTPToyE--I";
+
+        private string distances { get; set; }
+
+        private string apiKey = "AIzaSyAbPOEz-GSgEjGhEqU4KBxvY-VgbT6WfVs";
 
         private SetCar setCar = new SetCar();
+        private PriceDto _priceDto;
 
 
         public Form1()
@@ -38,8 +45,66 @@ namespace TaxaOpg
 
         private async void Beregn_Click(object sender, EventArgs e)
         {
+            if (_priceDto == null)
+            {
+                MessageBox.Show("Vælg venligst en vogn type og tid først.");
+                return;
+            }
+
+            string start = Start_Destination.Text;
+            string slut = Slut_Destination.Text;
+
+            if (string.IsNullOrEmpty(start) || string.IsNullOrEmpty(slut))
+            {
+                MessageBox.Show("Indtast begge destinationer");
+                return;
+            }
+
+            try
+            {
+                string url = $"https://maps.googleapis.com/maps/api/directions/json?origin={start}&destination={slut}&mode=driving&key={apiKey}";
+                using (HttpClient client = new HttpClient())
+                {
+                    HttpResponseMessage response = await client.GetAsync(url);
+                    response.EnsureSuccessStatusCode();
+                    string responseBody = await response.Content.ReadAsStringAsync();
+
+                    JObject json = JObject.Parse(responseBody);
 
 
+                    if (json["routes"] != null && json["routes"].Any())
+                    {
+                        var distance = json["routes"][0]["legs"][0]["distance"]["text"];
+                        distances = distance.ToString();
+
+                        Antal_km.Text = distances;
+                        distances = distances.Replace(",", ".");
+                        double distanceValue = 0;
+
+                        if (distances.EndsWith(" km"))
+                        {
+                            distanceValue = double.Parse(distances.Replace(" km", ""), CultureInfo.InvariantCulture);
+                        }
+                        else if (distances.EndsWith(" m"))
+                        {
+                            distanceValue = double.Parse(distances.Replace(" m", ""), CultureInfo.InvariantCulture) / 1000;
+                        }
+
+                        // Use StartPris and PrisPrKm in calculation
+                        double totalpris = _priceDto.StartPris + (distanceValue * _priceDto.PrisPrKm);
+                        _priceDto.pris = totalpris;
+                        Pris.Text = _priceDto.pris.ToString();
+                    }
+                    else
+                    {
+                        MessageBox.Show("Ingen rute fundet mellem de angivne destinationer.");
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
         }
 
 
@@ -47,70 +112,66 @@ namespace TaxaOpg
         private void Start_Destination_TextChanged(object sender, EventArgs e)
         {
 
-        }
 
+        }
         private void Slut_Destination_TextChanged(object sender, EventArgs e)
         {
 
         }
 
-        private void webView21_Click(object sender, EventArgs e)
-        {
-
-
-        }
-
         private void VisKort_Click(object sender, EventArgs e)
         {
-            
+            string url = string.Format("http://maps.google.com/maps?t={0}&q=loc:{1}", "Satellite", Start_Destination.Text);
+            webView21.Source = new Uri(url);
         }
 
-        private void DagNatComboBox_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            Pris_Click_1(sender, e);
-        }
-
-        private void VognTypeComboBox_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            Pris_Click_1(sender, e);
-        }
-
-
-        private void Pris_Click_1(object sender, EventArgs e)
+        private void PrisUpdate()
         {
             if (VognTypeComboBox.SelectedItem == null || DagNatComboBox.SelectedItem == null)
                 return;
 
             VehicleType selectedCarType = (VehicleType)VognTypeComboBox.SelectedItem;
             SetTillaeg selectedTime = (SetTillaeg)DagNatComboBox.SelectedItem;
-            PriceDto priceDto = null;
 
-          
+
             if (selectedTime == SetTillaeg.Dag)
             {
                 if (selectedCarType == VehicleType.Normal)
-                    priceDto = setCar.GetNormalCarPriceDay();
+                    _priceDto = setCar.GetNormalCarPriceDay();
                 else if (selectedCarType == VehicleType.Big)
-                    priceDto = setCar.GetBigCarPriceDay();
+                    _priceDto = setCar.GetBigCarPriceDay();
             }
             else if (selectedTime == SetTillaeg.Nat)
             {
                 if (selectedCarType == VehicleType.Normal)
-                    priceDto = setCar.GetNormalCarPriceNight();
+                    _priceDto = setCar.GetNormalCarPriceNight();
                 else if (selectedCarType == VehicleType.Big)
-                    priceDto = setCar.GetBigCarPriceNight();
+                    _priceDto = setCar.GetBigCarPriceNight();
             }
 
-            
-            if (priceDto != null)
+
+            if (_priceDto != null)
             {
-                Pris.Text = $"Start Pris: {priceDto.StartPris}, \nPris pr km: {priceDto.PrisPrKm}";
+                Pris.Text = _priceDto.StartPris.ToString();
+
             }
-            
-            
+
+        }
+
+        private void VognTypeComboBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            PrisUpdate();
+        }
+
+        private void DagNatComboBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            PrisUpdate();
         }
     }
+
 }
+
+
 
 
 
