@@ -89,9 +89,11 @@ namespace TaxaOpg
                         }
 
                         // Use StartPris and PrisPrKm in calculation
+
+                        
                         double totalpris = _priceDto.StartPris + (distanceValue * _priceDto.PrisPrKm);
                         _priceDto.pris = totalpris;
-                        Pris.Text = _priceDto.pris.ToString();
+                        Pris.Text = _priceDto.pris.ToString() + "dkk";
                     }
                 }
             }

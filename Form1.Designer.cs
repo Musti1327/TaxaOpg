@@ -34,6 +34,7 @@ namespace TaxaOpg
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+            this.label4 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.VognTypeComboBox = new System.Windows.Forms.ComboBox();
             this.Antal_km = new System.Windows.Forms.Label();
@@ -47,7 +48,6 @@ namespace TaxaOpg
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.webView21 = new Microsoft.Web.WebView2.WinForms.WebView2();
-            this.label4 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -85,6 +85,15 @@ namespace TaxaOpg
             this.splitContainer1.SplitterDistance = 353;
             this.splitContainer1.TabIndex = 0;
             // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(139, 170);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(51, 13);
+            this.label4.TabIndex = 16;
+            this.label4.Text = "Antal km;";
+            // 
             // label3
             // 
             this.label3.AutoSize = true;
@@ -100,7 +109,10 @@ namespace TaxaOpg
         TaxaOpg.VehicleType.Unknown,
         TaxaOpg.VehicleType.Normal,
         TaxaOpg.VehicleType.Big};
-     
+            this.VognTypeComboBox.Items.AddRange(new object[] {
+            TaxaOpg.VehicleType.Unknown,
+            TaxaOpg.VehicleType.Normal,
+            TaxaOpg.VehicleType.Big});
             this.VognTypeComboBox.Location = new System.Drawing.Point(12, 167);
             this.VognTypeComboBox.Name = "VognTypeComboBox";
             this.VognTypeComboBox.Size = new System.Drawing.Size(121, 21);
@@ -152,7 +164,9 @@ namespace TaxaOpg
             this.DagNatComboBox.DataSource = new TaxaOpg.SetTillaeg[] {
         TaxaOpg.SetTillaeg.Dag,
         TaxaOpg.SetTillaeg.Nat};
-            
+            this.DagNatComboBox.Items.AddRange(new object[] {
+            TaxaOpg.SetTillaeg.Dag,
+            TaxaOpg.SetTillaeg.Nat});
             this.DagNatComboBox.Location = new System.Drawing.Point(12, 194);
             this.DagNatComboBox.Name = "DagNatComboBox";
             this.DagNatComboBox.Size = new System.Drawing.Size(121, 21);
@@ -213,15 +227,6 @@ namespace TaxaOpg
             this.webView21.Size = new System.Drawing.Size(437, 444);
             this.webView21.TabIndex = 0;
             this.webView21.ZoomFactor = 1D;
-            // 
-            // label4
-            // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(139, 170);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(51, 13);
-            this.label4.TabIndex = 16;
-            this.label4.Text = "Antal km;";
             // 
             // Form1
             // 
